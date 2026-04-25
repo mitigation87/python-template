@@ -1,0 +1,40 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.python-version
+build/
+dist/
+*.egg-info/
+
+# --- uv ---
+# uv.lock SHOULD be committed; uncomment the next line only if this is a library
+# uv.lock
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Testing / tooling ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Secrets / local config ---
+.env
+.env.local
+
+# --- Generated data ---
+data/raw/
+data/cache/
+exports/
+reports/
+
+# --- macOS ---
+.DS_Store
+
+# --- Editor / Claude local-only config ---
+.claude/settings.local.json
+.vscode/
