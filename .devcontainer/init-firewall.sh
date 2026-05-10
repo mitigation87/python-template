@@ -79,12 +79,14 @@ for domain in \
     "deb.debian.org" \
     "security.debian.org"; do
     echo "Resolving $domain..."
-    ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
+    # Follow CNAMEs and pull only A records. `+short` chases the chain;
+    # the grep keeps just dotted-quad IPv4 lines (drops trailing CNAMEs).
+    ips=$(dig +short A "$domain" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' || true)
     if [ -z "$ips" ]; then
-        echo "ERROR: Failed to resolve $domain"
-        exit 1
+        echo "WARN: Failed to resolve $domain (skipping; firewall will block this domain)"
+        continue
     fi
-    
+
     while read -r ip; do
         if [[ ! "$ip" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
             echo "ERROR: Invalid IP from DNS for $domain: $ip"
